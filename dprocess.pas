@@ -696,6 +696,7 @@ Var
     ErrorString: ansistring; // L505
 begin
   p:=TProcess.create(nil);
+  p.ShowWindow := swoHIDE;
   if Options<>[] then
     P.Options:=Options - ForbiddenOptions;
   p.Executable:=exename;
