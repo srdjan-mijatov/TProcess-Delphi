@@ -193,7 +193,7 @@ function RunCommand(const cmdline:string;out outputstring:string):boolean; depre
 
 function RunCommandIndir(const curdir: string; const exename: string; const commands: array of string; out outputstring: ansistring; out exitstatus:integer; Options : TProcessOptions = []):integer; overload; //L505
 function RunCommandIndir(const curdir: string; const exename: string; const commands: array of string; out outputstring: ansistring; Options : TProcessOptions = []):boolean; overload; // L505
-function RunCommand(const exename: string; const commands: array of string; out outputstring: ansistring; Options : TProcessOptions = []):boolean; overload;// L505
+function RunCommand(const exename: string; const commands: array of string; out outputstring: ansistring; Options : TProcessOptions = []; Hidden: Boolean = True):boolean; overload;// L505
 
 
 function RunCommandInDir(const curdir,cmdline:string;out outputstring:ansistring):boolean; deprecated; overload; // L505
@@ -687,7 +687,7 @@ end;
 
 // L505: Changed to ansistring
 // function RunCommand(const exename:string;const commands:array of string;out outputstring:string; Options : TProcessOptions = []):boolean;
-function RunCommand(const exename:string; const commands:array of string; out outputstring: ansistring; Options : TProcessOptions = []):boolean;
+function RunCommand(const exename:string; const commands:array of string; out outputstring: ansistring; Options : TProcessOptions = []; Hidden: Boolean = True):boolean;
 Var
     p : TProcess;
     i,
@@ -696,7 +696,8 @@ Var
     ErrorString: ansistring; // L505
 begin
   p:=TProcess.create(nil);
-  p.ShowWindow := swoHIDE;
+  if Hidden then
+    p.ShowWindow := swoHIDE;
   if Options<>[] then
     P.Options:=Options - ForbiddenOptions;
   p.Executable:=exename;
